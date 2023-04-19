@@ -1,8 +1,11 @@
+const Authorizer = require("./Authorizer");
 const Controller = require("./controller");
 
-module.exports = () => {
+function create() {
 	const express = require("express");
 	const router = express.Router();
+
+	router.post("*", Authorizer.verifyRequest);
 
 	// BEGIN: User
 	router.post("/user", Controller.registerUser);
@@ -17,3 +20,5 @@ module.exports = () => {
 
 	return router;
 }
+
+module.exports = { create };

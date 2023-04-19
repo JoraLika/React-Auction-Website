@@ -34,11 +34,6 @@ export default class NavComp extends Component {
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className="navLinks mr-auto">
-                            <Link id="link" to={"/home"} style={{ textDecoration: 'none', color: '#fff' }}>
-                                Home
-                            </Link>
-                        </Nav>
-                        <Nav className="navLinks mr-auto">
                             <Link id="link" to={"/products"} style={{ textDecoration: 'none', color: '#fff' }}>
                                 Products
                             </Link>

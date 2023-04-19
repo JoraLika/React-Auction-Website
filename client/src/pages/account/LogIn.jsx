@@ -3,8 +3,6 @@ import { Form, Button, Container, Alert, Card } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import './Style.css';
 
-const API_URL = process.env.REACT_APP_API;
-
 export default class LoginForm extends Component {
 
     constructor(props) {
@@ -41,7 +39,7 @@ export default class LoginForm extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to="/home" />
+            return <Redirect to="/products" />
         }
         return (
             <Container className="card-container mt-5">

@@ -3,8 +3,6 @@ import { Form, Button, Container, Alert, Card, Dropdown } from 'react-bootstrap'
 import { Link, Redirect } from 'react-router-dom';
 import './Style.css';
 
-const API_URL = process.env.REACT_APP_API;
-
 export default class SignUp extends Component {
     //Local Storage
     constructor(props) {

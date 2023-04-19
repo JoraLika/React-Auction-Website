@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Card,
   ListGroup,
@@ -8,12 +8,12 @@ import {
   Button,
 } from 'react-bootstrap';
 import Countdown from 'react-countdown';
-import './ProductsPage.css';
+import Bid from './Bid';
+import '../pages/productsPage/ProductsPage.css';
 
-const AuctionCard = ({ product }) => {
+const AuctionCard = ({ product, reloadCallback }) => {
   const bidPrice = useRef();
-
-  let auctionCart = JSON.parse(localStorage.getItem('auctionCart'));
+  const [auctionCart, setAuctionCart] = useState([]);
   // const userData = JSON.parse(localStorage.getItem('user'));
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -24,8 +24,16 @@ const AuctionCard = ({ product }) => {
     }
   };
 
+  const reloadList = () => {
+    const localAuctionCart = JSON.parse(localStorage.getItem("auctionCart"));
+    setAuctionCart(localAuctionCart);
+  }
   const deleteHandler = (e) => {
-    localStorage.removeItem("product");
+    const products = JSON.parse(localStorage.getItem("products"));
+    const selectedIndex = products.findIndex((item) => item.id === product.id);
+    products.splice(selectedIndex, 1);
+    localStorage.setItem("products", JSON.stringify(products));
+    reloadCallback();
   };
 
   const handleSubmit = (e) => {
@@ -38,19 +46,9 @@ const AuctionCard = ({ product }) => {
       id: Math.random() * 1000,
     }
 
-    if (auctionCart == null) auctionCart = [];
     auctionCart.push(cart);
     localStorage.setItem('auctionCart', JSON.stringify(auctionCart));
-
-    // const dataUser = {
-    //   confirmPassword: "asdfghjkl",
-    //   email: "j@gmail.com",
-    //   password: "asdfghjkl",
-    //   username: "jora",
-    //   wallet: userData.wallet - cart.bid
-    // }
-    // userData.push(dataUser);
-    // localStorage.setItem('userData', JSON.stringify(userData));
+    reloadList();
   };
 
   return (
@@ -80,7 +78,7 @@ const AuctionCard = ({ product }) => {
             {hours} hr: {minutes} min: {seconds} sec
           </Card.Text> */}
           <Countdown
-            date={Date.now() + product.duration}
+            date={new Date(product.dueDate) }
             renderer={renderer}
           />
           <InputGroup className='sm-3' size='md'>
@@ -141,6 +139,11 @@ const AuctionCard = ({ product }) => {
                 </Button>
               </InputGroup>
             </form>
+            <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
+                {auctionCart?.map(bid => (
+                    <Bid key={bid.id} bid={bid}/>
+                ))}
+            </div>
           </Card.Link>
         </Card.Body>
       </Card>
@@ -148,14 +151,5 @@ const AuctionCard = ({ product }) => {
   );
 };
 export default AuctionCard;
-// export const AuctionCard = () => {
-//   return (
-//     <>
-//       <Countdown
-//         renderer={renderer}
-//       />
-//     </>
-//   );
-// };
 
 

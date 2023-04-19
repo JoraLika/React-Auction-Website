@@ -8,11 +8,13 @@ import {
 import NavComp from '../../components/NavComp';
 import moment from 'moment';
 import './ProductsPage';
-import AuctionCard from './AuctionCard';
+import AuctionCard from '../../components/AuctionCard';
 
 const ProductsPage = () => {
     const [showForm, setShowForm] = useState(false);
     const [error, setError] = useState('');
+    const [products, setProducts] = useState([]);
+    const [imgPath, setImgPath] = useState('');
 
     const openForm = () => setShowForm(true);
     const closeForm = () => setShowForm(false);
@@ -24,9 +26,6 @@ const ProductsPage = () => {
     const itemImage = useRef();
 
     const user = JSON.parse(localStorage.getItem('user'));
-    let products = JSON.parse(localStorage.getItem('products'));
-
-    const imgTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -36,30 +35,26 @@ const ProductsPage = () => {
             title: itemTitle.current.value,
             description: itemDesc.current.value,
             price: startPrice.current.value,
-            duration: dueDate,
-            itemImage: itemImage.current.files[0],
+            dueDate: dueDate,
+            itemImage: imgPath,
             id: Math.random() * 1000,
         }
 
-        console.log(itemImage);
-        if (!imgTypes.includes(itemImage.current.files[0].type)) {
-            setError('Please use a valid image');
-            return;
-        }
-
-        if (products == null) products = [];
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-
+        reloadList();
         setError('');
         closeForm();
     };
 
+    const reloadList = () => {
+        const products = JSON.parse(localStorage.getItem("products"));
+        setProducts(products)
+    }
     const imageUpload = (e) => {
         const file = itemImage.current.files[0];
         getBase64(file).then(base64 => {
-            localStorage["fileBase64"] = base64;
-            console.debug("file stored", base64);
+         setImgPath(base64);
         });
     };
 
@@ -82,7 +77,7 @@ const ProductsPage = () => {
             </div>
             <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
                 {products?.map(product => (
-                    <AuctionCard key={product.id} product={product} />
+                    <AuctionCard key={product.id} product={product} reloadCallback={reloadList} />
                 ))}
             </div>
 
@@ -128,7 +123,7 @@ const ProductsPage = () => {
                             <Form.Label>Product Image</Form.Label>
                             <Form.Control
                                 onChange={imageUpload}
-                                accept="image/*"
+                                accept="image/png, image/jpg, image/jpeg"
                                 type='file'
                                 label='Select Product Image'
                                 required

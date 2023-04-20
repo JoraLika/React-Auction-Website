@@ -8,7 +8,7 @@ const schema = new Schema({
 	title: String,
 	description: String,
 	price: Number,
-    itemImage: String,
+	itemImage: String,
 	dueDate: Date
 });
 

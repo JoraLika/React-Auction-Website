@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const Product = require("./models/Product");
 const User = require("./models/User");
 
@@ -31,7 +33,7 @@ module.exports = {
 		try {	
 			const query = req.query;
 			user = await User.findOne({
-				email: query.email,
+				username: query.username,
 				password: query.password
 			});
 
@@ -63,7 +65,7 @@ module.exports = {
 		
 		try {
 			product = await Product.findOne({
-				id: req.params.id
+				_id: new mongoose.Types.ObjectId(req.params.id)
 			});
 
 		} catch (findError) {
@@ -78,7 +80,7 @@ module.exports = {
 	addProduct: async (req, res) => {
 		const body = req.body;
 		let productData = {
-			owner: mongoose.Types.ObjectId(owner),
+			owner: new mongoose.Types.ObjectId(body.owner),
 			title: body.title,
 			description: body.description,
 			price: body.price,
@@ -99,4 +101,4 @@ module.exports = {
 		res.json({ data: productData });
 	}
 	
-}
+};

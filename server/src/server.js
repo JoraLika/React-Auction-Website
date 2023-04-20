@@ -13,7 +13,7 @@ const Routes = require("./routes");
 
 function createServer() {
 	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: false }));
+	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(morgan("combined"));
 	app.use(cors());
 	app.use(express.static(path.resolve("..", "client", "build")));

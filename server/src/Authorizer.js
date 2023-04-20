@@ -2,11 +2,11 @@ const User = require("./models/User");
 
 async function verifyRequest(req, res, next) {
 	const headers = req.headers;
-	if (!headers.email || !headers.password) return res.status(401).json({ data: { error: "Missing email and/or password." } });
+	if (!headers.username || !headers.password) return res.status(401).json({ data: { error: "Missing username and/or password." } });
 
 	try {
 		const user = await User.findOne({
-			email: headers.email,
+			username: headers.username,
 			password: headers.password
 		});
 

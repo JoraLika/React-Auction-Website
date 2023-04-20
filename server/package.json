@@ -14,5 +14,8 @@
     "mongoose": "^7.0.4",
     "morgan": "^1.10.0"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "eslint": "^8.38.0"
+  }
 }

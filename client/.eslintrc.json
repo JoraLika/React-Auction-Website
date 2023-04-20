@@ -1,17 +1,18 @@
 {
-	"extends": "next/core-web-vitals",
-	"overrides": [],
-	"rules": {
-		"indent": [
-			"warn",
-			2
-		],
-		"no-unused-vars": "warn",
-		"quotes": [
-			"warn",
-			"single"
-		],
-		"semi": ["warn", "always", {"omitLastInOneLineBlock": true}]
+	"env": {
+		"browser": true
 	},
-	"globals": {}
+	"parser": "babel-eslint",
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended"
+	],
+	"rules": {
+		"no-extra-semi": "off",
+		"no-unused-vars": "warn"
+	},
+	"globals": {
+		"process": "readonly",
+		"Promise": "readonly"
+	}
 }

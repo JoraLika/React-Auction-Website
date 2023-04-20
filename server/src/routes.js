@@ -17,6 +17,12 @@ function create() {
 	router.delete("/product/:id", Authorizer.verifyRequest, Controller.removeProduct);
 	// END: Product
 
+	// BEGIN: Bid
+	router.get("/bids/:productId"	, Controller.getBidsForProductId);
+	router.post("/bid"				, Authorizer.verifyRequest, Controller.addBid);
+	router.delete("/bid/:id"		, Authorizer.verifyRequest, Controller.removeBid);
+	// END: Bid
+
 	return router;
 }
 

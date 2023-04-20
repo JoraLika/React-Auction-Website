@@ -9,7 +9,8 @@
 	],
 	"rules": {
 		"no-extra-semi": "off",
-		"no-unused-vars": "warn"
+		"no-unused-vars": "warn",
+		"react/prop-types": "off"
 	},
 	"globals": {
 		"process": "readonly",

@@ -3,6 +3,8 @@ import { Form, Button, Container, Alert, Card } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import './Style.css';
 
+import { login } from "../apis/user";
+
 export default class LoginForm extends Component {
 
     constructor(props) {
@@ -23,6 +25,12 @@ export default class LoginForm extends Component {
         e.preventDefault();
         const username = e.target.username.value
         const password = e.target.password.value
+        
+        // const response = await login(username, password);
+        // if (response.status === 'failure') {
+        //     return this.setState({ errorMsg: <Alert variant="danger" className="text-center">{response.result}</Alert> });
+        // }
+
         const users = JSON.parse(localStorage.getItem('users'));// get from local storage
         let userExist = false;
         for (let user of users) {

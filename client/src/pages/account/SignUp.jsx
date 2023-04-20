@@ -3,6 +3,8 @@ import { Form, Button, Container, Alert, Card, Dropdown } from 'react-bootstrap'
 import { Link, Redirect } from 'react-router-dom';
 import './Style.css';
 
+import { register } from "../apis/user";
+
 export default class SignUp extends Component {
     //Local Storage
     constructor(props) {
@@ -32,14 +34,13 @@ export default class SignUp extends Component {
         });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         const { user } = this.state;
         // const username = user;
 
         // Validation
         if ((user.confirmPassword !== user.password)) {
-            this.setState({ errorMsg: <Alert variant="danger" className="text-center">Password And Confirm Password Do Not Match</Alert> });
-            return;
+            return this.setState({ errorMsg: <Alert variant="danger" className="text-center">Password And Confirm Password Do Not Match</Alert> });
         }
         // if (user.username > 0) {
         //     this.setState({ errorMsg: <Alert variant="success" className="text-center">This Username Is Already Taken</Alert> });
@@ -50,13 +51,17 @@ export default class SignUp extends Component {
         let users = JSON.parse(localStorage.getItem('users'));
         if (users == null) users = [];
         users.push(user);
-        localStorage.setItem('users', JSON.stringify(users));
+        
+        // const response = await register(user);
+        // if (response.status === 'failure') {
+        //     return this.setState({ errorMsg: <Alert variant="danger" className="text-center">{response.result}</Alert> });
+        // }
+
         this.setState({ redirect: true });
         // this.setState({ errorMsg: <Alert variant="success" className="text-center">User Added Successfully</Alert> });
 
         if (users.find(user => user.username === this.state.user.username)) {
-            this.setState({ errorMsg: <Alert variant="success" className="text-center">This Username Is Already Taken</Alert> });
-            return;
+            return this.setState({ errorMsg: <Alert variant="success" className="text-center">This Username Is Already Taken</Alert> });
         }
 
         e.preventDefault();

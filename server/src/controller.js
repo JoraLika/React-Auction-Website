@@ -77,6 +77,26 @@ module.exports = {
 	},
 
 
+	removeProduct: async (req, res) => {
+		let result;
+		
+		try {
+			let res = await Product.deleteOne({
+				_id: new mongoose.Types.ObjectId(req.params.id)
+			});
+			console.log(res);
+			result = "Successfully removed product";
+			
+		} catch (findError) {
+			result = "There was a problem removing the product!";
+			console.error(findError);
+			res.status(500);
+		}
+
+		res.json({ data: result });
+	},
+
+
 	addProduct: async (req, res) => {
 		const body = req.body;
 		let productData = {

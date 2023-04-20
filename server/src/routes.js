@@ -14,6 +14,7 @@ function create() {
 	router.get("/products"		, Controller.getAllProducts);
 	router.get("/product/:id"	, Controller.getProduct);
 	router.post("/product"		, Authorizer.verifyRequest, Controller.addProduct);
+	router.delete("/product/:id", Authorizer.verifyRequest, Controller.removeProduct);
 	// END: Product
 
 	return router;

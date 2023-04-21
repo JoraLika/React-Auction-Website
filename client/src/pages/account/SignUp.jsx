@@ -3,7 +3,7 @@ import { Form, Button, Container, Alert, Card, Dropdown } from 'react-bootstrap'
 import { Link, Redirect } from 'react-router-dom';
 import './Style.css';
 
-import { register } from "../apis/user";
+import { register } from "../../apis/user.js";
 
 export default class SignUp extends Component {
     //Local Storage

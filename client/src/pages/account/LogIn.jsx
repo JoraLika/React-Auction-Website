@@ -3,7 +3,7 @@ import { Form, Button, Container, Alert, Card } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import './Style.css';
 
-import { login } from "../apis/user";
+import { login } from "../../apis/user.js";
 
 export default class LoginForm extends Component {
 

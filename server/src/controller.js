@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+const Bid = require("./models/Bid");
 const Product = require("./models/Product");
 const User = require("./models/User");
 
@@ -99,6 +100,88 @@ module.exports = {
 		}
 
 		res.json({ data: productData });
-	}
+	},
 	
+
+	removeProduct: async (req, res) => {
+		let result;
+		
+		try {
+			let res = await Product.deleteOne({
+				_id: new mongoose.Types.ObjectId(req.params.id)
+			});
+			if (res.deletedCount === 0) throw new Error(`No product with that id: ${req.params.id}`);
+
+			result = "Successfully removed product";
+
+		} catch (findError) {
+			result = "There was a problem removing the product!";
+			console.error(findError);
+			res.status(500);
+		}
+
+		res.json({ data: result });
+	},
+
+
+	getBidsForProductId: async (req, res) => {
+		let bids = [];
+		
+		try {
+			bids = await Bid.find({
+				product: new mongoose.Types.ObjectId(req.params.productId)
+			});
+
+		} catch (findError) {
+			console.error(findError);
+			res.status(500);
+		}
+
+		res.json({ data: bids });
+	},
+
+
+	addBid: async (req, res) => {
+		const body = req.body;
+		let bidData = {
+			product: new mongoose.Types.ObjectId(body.productId),
+			user: new mongoose.Types.ObjectId(body.userId),
+			value: body.value
+		};
+		
+		try {
+			const bid = new Bid(bidData);
+			await bid.save();
+
+		} catch (error) {
+			console.error(error);
+			bidData = { error };
+			res.status(500);
+		}
+
+		res.json({ data: bidData });
+	},
+
+
+	removeBid: async (req, res) => {
+		let result;
+		
+		try {
+			let res = await Bid.deleteOne({
+				_id: new mongoose.Types.ObjectId(req.params.id)
+			});
+			if (res.deletedCount === 0) throw new Error(`No bid with that id: ${req.params.id}`);
+
+			
+			result = "Successfully removed bid";
+
+		} catch (findError) {
+			result = "There was a problem removing the bid!";
+			console.error(findError);
+			res.status(500);
+		}
+
+		res.json({ data: result });
+	},
+
 };

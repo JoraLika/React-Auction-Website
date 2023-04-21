@@ -79,14 +79,14 @@ export default class LoginForm extends Component {
                             </Form.Group>
                             <div className="form-check mb-2">
                                 <input className="form-check-input" type="checkbox" id="autoSizingCheck" />
-                                <label className="form-check-label" for="autoSizingCheck">
+                                <label className="form-check-label" htmlFor="autoSizingCheck">
                                     Remember me
                                 </label>
                             </div>
                             <Button id="button" variant="danger" type="submit">
                                 Log In
                             </Button>
-                            <div className=" text-center">Don't have an account?</div>
+                            <div className=" text-center">Don&apos;t have an account?</div>
                             <div className=" link row text-center">
                                 <Link to={'/signUp'} className="link">Register Here</Link>
                             </div>

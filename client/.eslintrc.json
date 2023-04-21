@@ -1,0 +1,19 @@
+{
+	"env": {
+		"browser": true
+	},
+	"parser": "babel-eslint",
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended"
+	],
+	"rules": {
+		"no-extra-semi": "off",
+		"no-unused-vars": "warn",
+		"react/prop-types": "off"
+	},
+	"globals": {
+		"process": "readonly",
+		"Promise": "readonly"
+	}
+}

@@ -1,154 +1,129 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import {
-    Button,
-    Form,
-    Modal,
-    Alert,
-} from 'react-bootstrap';
-import NavComp from '../../components/NavComp';
-import moment from 'moment';
-import './ProductsPage';
-import AuctionCard from '../../components/AuctionCard';
+    Box, 
+    Tabs,
+    Tab,
+    Typography,
+    Divider,
+    List
+} from "../../MaterialUiCmp.js";
+import PropTypes from 'prop-types';
+import CreateProduct from '../../components/product/CreateProduct.jsx';
+import AuctionCard from '../../components/product/AuctionCard.jsx';
+import { getProducts } from '../../apis/product.js';
+// import { AuthContext } from '../../Context';
 
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
 const ProductsPage = () => {
-    const [showForm, setShowForm] = useState(false);
-    const [error, setError] = useState('');
+    // const { user, setUser } = useContext(AuthContext);
+    // const [showForm, setShowForm] = useState(false);
+    // const [error, setError] = useState('');
+    // const [products, setProducts] = useState([]);
+    // const [imgPath, setImgPath] = useState('');
+    const [value, setValue] = useState(0);
     const [products, setProducts] = useState([]);
-    const [imgPath, setImgPath] = useState('');
 
-    const openForm = () => setShowForm(true);
-    const closeForm = () => setShowForm(false);
+    const handleChange = (event, newValue) => setValue(newValue);
 
-    const itemTitle = useRef();
-    const itemDesc = useRef();
-    const startPrice = useRef();
-    const itemDuration = useRef();
-    const itemImage = useRef();
+    // const openForm = () => setShowForm(true);
+    // const closeForm = () => setShowForm(false);
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    // const itemTitle = useRef();
+    // const itemDesc = useRef();
+    // const startPrice = useRef();
+    // const itemDuration = useRef();
+    // const itemImage = useRef();
 
-    const submitForm = (e) => {
-        e.preventDefault();
-        const dueDate = moment().add(itemDuration.current.value, 'hours').format();
-        const product = {
-            username: user.username,
-            title: itemTitle.current.value,
-            description: itemDesc.current.value,
-            price: startPrice.current.value,
-            dueDate: dueDate,
-            itemImage: imgPath,
-            id: Math.random() * 1000,
-        }
+    // const submitForm = (e) => {
+    //     e.preventDefault();
+    //     const dueDate = moment().add(itemDuration.current.value, 'hours').format();
+    //     const product = {
+    //         username: user.username,
+    //         title: itemTitle.current.value,
+    //         description: itemDesc.current.value,
+    //         price: startPrice.current.value,
+    //         dueDate: dueDate,
+    //         itemImage: imgPath,
+    //         id: Math.random() * 1000,
+    //     }
 
-        products.push(product);
-        localStorage.setItem('products', JSON.stringify(products));
-        reloadList();
-        setError('');
-        closeForm();
-    };
+    //     products.push(product);
+    //     localStorage.setItem('products', JSON.stringify(products));
+    //     reloadList();
+    //     setError('');
+    //     closeForm();
+    // };
+    useEffect(async () => {
+      const response = await getProducts();
+      if (response.status === 'failure') return console.error(response.result);
 
+      setProducts(response.result.data);
+    })
     const reloadList = () => {
-        const products = JSON.parse(localStorage.getItem("products"));
-        setProducts(products)
-    }
-    const imageUpload = (e) => {
-        const file = itemImage.current.files[0];
-        getBase64(file).then(base64 => {
-         setImgPath(base64);
-        });
-    };
-
-    const getBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
-        });
     }
 
     return (
-        <div className="auction" style={{ background: '#181818' }}>
-            <NavComp />
-            <div className='col d-flex justify-content-center my-3'>
-                <div onClick={openForm} className='btn btn-dark mx-2'>
-                    + Create
-                </div>
-            </div>
-            <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
-                {products?.map(product => (
-                    <AuctionCard key={product.id} product={product} reloadCallback={reloadList} />
-                ))}
-            </div>
-
-            {/* Products list */}
-            <Modal centered show={showForm} onHide={closeForm}>
-                <form onSubmit={submitForm}>
-                    <Modal.Header>
-                        <Modal.Title>Create Auction</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {error && <Alert variant='danger'>{error}</Alert>}
-                        <Form.Group className='mb-3'>
-                            <Form.Label>Product Name</Form.Label>
-                            <Form.Control type='text' required ref={itemTitle} />
-                        </Form.Group>
-
-                        <Form.Group className='mb-3'>
-                            <Form.Label>Product Description</Form.Label>
-                            <Form.Control type='text' required ref={itemDesc} />
-                        </Form.Group>
-
-                        <Form.Group className='mb-3'>
-                            <Form.Label>Starting Bid</Form.Label>
-                            <Form.Control type='number' required ref={startPrice} />
-                        </Form.Group>
-
-                        <Form.Group className='mb-3'>
-                            <Form.Label>Product Duration in hours</Form.Label>
-                            <Form.Control type='number' required ref={itemDuration} min='1' />
-                        </Form.Group>
-
-                        <Form.Group className='mb-3'>
-                            <Form.Label>Seller</Form.Label>
-                            <Form.Control
-                                type='text'
-                                value={user.username}
-                                readOnly
-                                id='seller'
-                            />
-                        </Form.Group>
-
-                        <Form.Group className='mb-3'>
-                            <Form.Label>Product Image</Form.Label>
-                            <Form.Control
-                                onChange={imageUpload}
-                                accept="image/png, image/jpg, image/jpeg"
-                                type='file'
-                                label='Select Product Image'
-                                required
-                                custom
-                                ref={itemImage}
-                            />
-                        </Form.Group>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            onClick={closeForm}
-                            variant='outline-dark mx-2'
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            type='submit'
-                            variant='dark mx-2'
-                        >
-                            Submit
-                        </Button>
-                    </Modal.Footer>
-                </form>
-            </Modal>
-        </div>
+      <>
+        <Box sx={{ width: '100%', margin: "2.5rem 0 0 0"}}>
+            <Tabs value={value} centered textColor="inherit" indicatorColor="secondary" onChange={handleChange}>
+                <Tab label="Your Products "/>
+                <Tab label="Others" />
+            </Tabs>                 
+            {/* <Divider orientation="vertical" variant="middle" flexItems light sx={{ ml: 2, height: 28 }}/> */}           
+            <TabPanel value={value} index={0}>
+                <Typography id="panel-title" variant="h5" component="h1" 
+                    sx={{
+                        padding: "0 0 1.5rem 0",
+                        textAlign: "center",
+                        color: "#eeee"
+                    }}
+                >                    
+                    Products
+                </Typography>
+                <AuctionCard/>
+                {/* <List>
+                {products.map(product => (<Typography variant="h5" key={product._id}>{product.name}</Typography>))}
+                  {products.map(product => (<AuctionCard product={product} key={product._id} reloadCallback={reloadList}/>))}
+                </List>  */}
+                <CreateProduct/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <Typography id="panel-title" variant="h5" component="h1" 
+                    sx={{
+                        padding: "0 0 1.5rem 0",
+                        textAlign: "center",
+                        color: "#eeee"
+                    }}
+                >                    
+                    Market
+                </Typography>
+            </TabPanel>
+        </Box>
+      </>
     );
 }
 

@@ -43,7 +43,7 @@ module.exports = {
 			res.status(500);
 		}
 
-		res.json({ data: user});
+		res.json({ data: user });
 	},
 
 

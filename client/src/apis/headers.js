@@ -1,6 +1,6 @@
-const createPostHeaders = (email, password) => {
+const createPostHeaders = (username, password) => {
 	return new Headers({
-		email,
+		username,
 		password,
 	});
 }

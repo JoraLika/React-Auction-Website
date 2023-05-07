@@ -28,6 +28,9 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CardHeader from '@mui/material/CardHeader';
+import InputBase from '@mui/material/InputBase';
 
 //Icons imports 
 import AddIcon from '@mui/icons-material/Add';
@@ -36,6 +39,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import PersonIcon from '@mui/icons-material/Person';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 export {
     Box,
@@ -67,11 +71,15 @@ export {
     CardActions,
     CardContent,
     CardMedia,
+    CardHeader,
+    InputBase,
 
     AccountCircle,
     AddIcon,
     MenuIcon,
     CloseIcon,
     GavelIcon,
-    PersonIcon
+    PersonIcon,
+    MoreVertIcon,
+    CheckOutlinedIcon
 };

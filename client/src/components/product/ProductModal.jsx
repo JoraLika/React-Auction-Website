@@ -16,6 +16,7 @@ import {
     CloseIcon
 } from "../../MaterialUiCmp.js";
 import { addProduct } from "../../apis/product.js";
+import { AuthContext } from '../../Context.js'; 
 import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 // import { AuthContext } from '../../Context';
@@ -51,26 +52,18 @@ const useStyles = makeStyles({
 
 function ProductModal(props) {
     const [errorMsg, setErrorMsg] = useState(null);
+    const { user, setUser } = useContext(AuthContext);
 
-    // const { user, setUser } = useContext(AuthContext);
-    const [showForm, setShowForm] = useState(false);
-    const [products, setProducts] = useState([]);
     const [imgPath, setImgPath] = useState('');
 
     const classes = useStyles();
 
-    // const itemTitle = useRef();
-    // const itemDesc = useRef();
-    // const startPrice = useRef();
-    // const itemDuration = useRef();
-    // const itemImage = useRef();
-
-    // const imageUpload = (e) => {
-    //     const file = itemImage.current.files[0];
-    //     getBase64(file).then(base64 => {
-    //         setImgPath(base64);
-    //     });
-    // };
+    const imageUpload = (e) => {
+        const file = e.target.files[0];
+        getBase64(file).then(base64 => {
+            setImgPath(base64);
+        });
+    };
 
     const getBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -83,17 +76,17 @@ function ProductModal(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const today = moment(Date.now());
+        const dueDate = today.add(Number(e.target.dueDate.value), 'hours');
         const product = {
             title: e.target.title.value,
             description: e.target.description.value,
             price: e.target.price.value,
-            dueDate: e.target.dueDate.value,
-            itemImage: e.target.itemImage.value
+            dueDate: dueDate.toISOString(),
+            itemImage: imgPath
         }
-        const response = await addProduct(product);
-        // if (response.status === 'failure') return setErrorMsg(response.result);
-        // setProducts(response.result.data);
+        const response = await addProduct(product, user.username, user.password);
+        if (response.status === 'failure') return setErrorMsg(response.result);
     }
 
   return (
@@ -178,12 +171,12 @@ function ProductModal(props) {
                             name="itemImage"
                             label= "Product Image"
                             accept="image/png, image/jpg, image/jpeg"
-                            // ref={itemImage}
+                            onChange={imageUpload}
                             sx={{ margin: "1.2rem 0 0 0" }}
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            //   onChange={imageUpload}
+                           
                           
                         />  
                         <Button id="button" name="cancel" variant="contained" color="primary"

@@ -14,7 +14,10 @@ const makeFetch = async (url, params) => {
 		}
 
 		const body = params.body;
-		if (body) params.body = JSON.stringify(body);
+		if (body) {
+			params.mode = 'no-cors';
+			params.body = JSON.stringify(body);
+		}
 
 		const response = await fetch(url, params);
 		result = await response.json();

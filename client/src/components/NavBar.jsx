@@ -30,8 +30,6 @@ function NavComp () {
     const [isOpenSignUp, setOpenSignUp] = useState(false);
     const [isOpenLogIn, setOpenLogIn] = useState(false);
 
-    const {userInfo, setUserInfo} = useState({});
-
     const getModalHandler = (type) => {
       return () => {
         if(type === "SignUp" ){

@@ -82,7 +82,7 @@ const ProductsPage = () => {
       if (response.status === 'failure') return console.error(response.result);
 
       setProducts(response.result.data);
-    })
+    }, [])
     const reloadList = () => {
     }
 
@@ -104,11 +104,11 @@ const ProductsPage = () => {
                 >                    
                     Products
                 </Typography>
-                <AuctionCard/>
-                {/* <List>
-                {products.map(product => (<Typography variant="h5" key={product._id}>{product.name}</Typography>))}
+                {/* <AuctionCard/> */}
+                <List>
+                {/* {products.map(product => (<Typography variant="h5" key={product._id}>{product.name}</Typography>))} */}
                   {products.map(product => (<AuctionCard product={product} key={product._id} reloadCallback={reloadList}/>))}
-                </List>  */}
+                </List> 
                 <CreateProduct/>
             </TabPanel>
             <TabPanel value={value} index={1}>

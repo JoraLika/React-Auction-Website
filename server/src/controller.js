@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 const Bid = require("./models/Bid");
 const Product = require("./models/Product");
@@ -53,6 +54,20 @@ module.exports = {
 		try {
 			products = await Product.find();
 
+			const productProms = products.map(async (product) => {
+				let user = await User.findById(new ObjectId(product.owner));
+				return {
+					owner: product.owner,
+					ownerName: user.username,
+					title: product.title,
+					description: product.description,
+					price: product.price,
+					itemImage: product.itemImage,
+					dueDate: product.dueDate
+				};
+			});
+			products = await Promise.all(productProms);
+
 		} catch (findError) {
 			console.error(findError);
 			res.status(500);
@@ -66,7 +81,7 @@ module.exports = {
 		
 		try {
 			product = await Product.findOne({
-				_id: new mongoose.Types.ObjectId(req.params.id)
+				_id: new ObjectId(req.params.id)
 			});
 
 		} catch (findError) {
@@ -81,7 +96,7 @@ module.exports = {
 	addProduct: async (req, res) => {
 		const body = req.body;
 		let productData = {
-			owner: new mongoose.Types.ObjectId(body.owner),
+			owner: new ObjectId(body.owner),
 			title: body.title,
 			description: body.description,
 			price: body.price,
@@ -108,7 +123,7 @@ module.exports = {
 		
 		try {
 			let res = await Product.deleteOne({
-				_id: new mongoose.Types.ObjectId(req.params.id)
+				_id: new ObjectId(req.params.id)
 			});
 			if (res.deletedCount === 0) throw new Error(`No product with that id: ${req.params.id}`);
 
@@ -129,7 +144,7 @@ module.exports = {
 		
 		try {
 			bids = await Bid.find({
-				product: new mongoose.Types.ObjectId(req.params.productId)
+				product: new ObjectId(req.params.productId)
 			});
 
 		} catch (findError) {
@@ -144,8 +159,8 @@ module.exports = {
 	addBid: async (req, res) => {
 		const body = req.body;
 		let bidData = {
-			product: new mongoose.Types.ObjectId(body.productId),
-			user: new mongoose.Types.ObjectId(body.userId),
+			product: new ObjectId(body.productId),
+			user: new ObjectId(body.userId),
 			value: body.value
 		};
 		
@@ -168,7 +183,7 @@ module.exports = {
 		
 		try {
 			let res = await Bid.deleteOne({
-				_id: new mongoose.Types.ObjectId(req.params.id)
+				_id: new ObjectId(req.params.id)
 			});
 			if (res.deletedCount === 0) throw new Error(`No bid with that id: ${req.params.id}`);
 

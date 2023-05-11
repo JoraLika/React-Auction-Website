@@ -127,12 +127,10 @@ function ProductModal(props) {
                             size="small"
                             type="text"
                             name="title"
-                            // ref={itemTitle}
                             label="Product Name"
                             sx={{ margin: "2rem 0 0 0" }}
                         />
                         <TextField className={classes.root} required fullWidth multiline
-                            // ref={itemDesc}
                             label="Product Description"
                             name="description"
                             rows={4}
@@ -144,7 +142,6 @@ function ProductModal(props) {
                             size="small"
                             type="number"
                             name="price"
-                            // ref={startPrice}
                             label="Starting Bid"
                             sx={{ margin: "1rem 0 0 0" }}
                             InputLabelProps={{
@@ -158,7 +155,6 @@ function ProductModal(props) {
                             size="small"
                             type="number"
                             name="dueDate"
-                            // ref={itemDuration}
                             label="Product Duration in hours"
                             sx={{ margin: "1rem 0 0 0" }}
                             InputProps={{
@@ -209,12 +205,6 @@ function ProductModal(props) {
                             >
                                 Submit
                         </Button>
-                    {/* <Typography variant="body1" sx={{textAlign: "center", margin: "2rem 0 0 0", color: "#eeeeeed0"}}>
-                        Already have an account? 
-                            <Link className="link" underline="none" sx={{padding: "0 0 0 0.5rem"}}>
-                                Log in
-                            </Link>
-                    </Typography> */}
                 </Box>
             </Modal>  
     </>

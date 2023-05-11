@@ -10,23 +10,8 @@ body{
   font-size: 1rem;
   background-color: #1B0044;
   color: #EEEE;
-/* 
-  @include breakpoint(md){
-    margin: 0 0 $header-height 0;
-  } */
 }
 
 #root{
   height: 100%;
-/* 
-  @include breakpoint(lg){
-    $h1-font-size: 1.5rem;
-    $h2-font-size: 1.25rem;
-    $h3-font-size: 1rem;
-    font-size: size($font_size);
-  } */
-/* 
-  @include breakpoint(sm){
-    font-size: size(big);
-  } */
 }

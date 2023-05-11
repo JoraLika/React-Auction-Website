@@ -22,9 +22,6 @@ import SignUp from './account/SignUp';
 import LogIn from './account/LogIn';
 
 function NavComp () { 
-    
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
     const { user, setUser } = useContext(AuthContext);
     const [btnVisible, setBtnVisible]= useState(true);
     const [isOpenSignUp, setOpenSignUp] = useState(false);
@@ -57,26 +54,10 @@ function NavComp () {
       localStorage.removeItem("userInfo");
       setUser({});
     }
-  
-    const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
-    // const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
-  
-    const handleCloseNavMenu = () => setAnchorElNav(null);
 
     useEffect(() => {
         setBtnVisible(user.username === undefined)
     }, [user])
-  
-    // const handleCloseUserMenu = () => setAnchorElUser(null);
-
-
-    //    const logOut = function() {
-    //         localStorage.setItem('user', false);
-    //         this.setState({ redirect: true });
-    //     }
-
-    // let { redirect } = this.state;
-    // if (redirect) return <Redirect to={"/logIn"} />;
 
     return (
      <>
@@ -104,33 +85,6 @@ function NavComp () {
           >
             Auction
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu id="menu-appbar" keepMounted anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-            </Menu>
-          </Box>
           <GavelIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography variant="h5" noWrap
             sx={{

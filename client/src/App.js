@@ -1,12 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import ProductsPage from './pages/productsPage/ProductsPage';
-// import SignUp from './pages/account/SignUp';
-// import LogIn from './pages/account/LogIn';
+import React, { useEffect, useState } from 'react';
+import ProductsTab from './components/tabs/productsTab/ProductsTab';
 import { AuthContext } from './Context';
 import { login } from "../src/apis/user.js";
-import './App.css';
 import NavBar from './components/NavBar';
+import './App.css';
 
 function App() {
   const [user, setUser] = useState({});
@@ -26,7 +23,7 @@ function App() {
   <>
     <AuthContext.Provider value={{user, setUser}}> 
         <NavBar/>
-        <ProductsPage/>
+        <ProductsTab/>
     </AuthContext.Provider>
   </>
   );

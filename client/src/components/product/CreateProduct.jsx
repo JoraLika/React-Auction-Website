@@ -12,8 +12,8 @@ function CreateProduct() {
     <>
     <Box sx={{ 
         position: "fixed",
-        right: "7rem",
-        bottom: "12%",
+        right: "4rem",
+        bottom: "10%",
     }}>
     <Tooltip title="Add a product" arrow>
       <Fab onClick={handleOpenModal} id="addBtn"

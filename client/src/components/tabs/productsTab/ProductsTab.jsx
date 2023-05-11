@@ -1,17 +1,17 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box, 
     Tabs,
     Tab,
     Typography,
     Divider,
-    List
-} from "../../MaterialUiCmp.js";
+    List,
+    Grid
+} from "../../../MaterialUiCmp.js";
 import PropTypes from 'prop-types';
-import CreateProduct from '../../components/product/CreateProduct.jsx';
-import AuctionCard from '../../components/product/AuctionCard.jsx';
-import { getProducts } from '../../apis/product.js';
-// import { AuthContext } from '../../Context';
+import CreateProduct from '../../product/CreateProduct.jsx';
+import AuctionCard from '../../product/AuctionCard.jsx';
+import { getProducts } from '../../../apis/product.js';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -38,45 +38,13 @@ function TabPanel(props) {
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
   };
-const ProductsPage = () => {
-    // const { user, setUser } = useContext(AuthContext);
-    // const [showForm, setShowForm] = useState(false);
-    // const [error, setError] = useState('');
-    // const [products, setProducts] = useState([]);
-    // const [imgPath, setImgPath] = useState('');
+
+const ProductsTab = () => {
     const [value, setValue] = useState(0);
     const [products, setProducts] = useState([]);
 
     const handleChange = (event, newValue) => setValue(newValue);
 
-    // const openForm = () => setShowForm(true);
-    // const closeForm = () => setShowForm(false);
-
-    // const itemTitle = useRef();
-    // const itemDesc = useRef();
-    // const startPrice = useRef();
-    // const itemDuration = useRef();
-    // const itemImage = useRef();
-
-    // const submitForm = (e) => {
-    //     e.preventDefault();
-    //     const dueDate = moment().add(itemDuration.current.value, 'hours').format();
-    //     const product = {
-    //         username: user.username,
-    //         title: itemTitle.current.value,
-    //         description: itemDesc.current.value,
-    //         price: startPrice.current.value,
-    //         dueDate: dueDate,
-    //         itemImage: imgPath,
-    //         id: Math.random() * 1000,
-    //     }
-
-    //     products.push(product);
-    //     localStorage.setItem('products', JSON.stringify(products));
-    //     reloadList();
-    //     setError('');
-    //     closeForm();
-    // };
     useEffect(async () => {
       const response = await getProducts();
       if (response.status === 'failure') return console.error(response.result);
@@ -90,12 +58,12 @@ const ProductsPage = () => {
       <>
         <Box sx={{ width: '100%', margin: "2.5rem 0 0 0"}}>
             <Tabs value={value} centered textColor="inherit" indicatorColor="secondary" onChange={handleChange}>
-                <Tab label="Your Products "/>
-                <Tab label="Others" />
+                <Tab label="Products"/>
+                <Tab label="Market" />
             </Tabs>                 
             {/* <Divider orientation="vertical" variant="middle" flexItems light sx={{ ml: 2, height: 28 }}/> */}           
             <TabPanel value={value} index={0}>
-                <Typography id="panel-title" variant="h5" component="h1" 
+                {/* <Typography id="panel-title" variant="h5" component="h1" 
                     sx={{
                         padding: "0 0 1.5rem 0",
                         textAlign: "center",
@@ -103,12 +71,18 @@ const ProductsPage = () => {
                     }}
                 >                    
                     Products
-                </Typography>
-                {/* <AuctionCard/> */}
-                <List>
-                {/* {products.map(product => (<Typography variant="h5" key={product._id}>{product.name}</Typography>))} */}
-                  {products.map(product => (<AuctionCard product={product} key={product._id} reloadCallback={reloadList}/>))}
-                </List> 
+                </Typography> */}
+                    <Grid container spacing={3}
+                    sx={{ '& > *:not(:first-of-type)': { marginLeft: 1 }, justifyContent: "center"}}
+                    >  
+                      {products.map(product => ( 
+                        <>
+                        <Grid item xs={12} sm={6} md={4} lg={3}  key={product._id} >
+                          <AuctionCard product={product}  reloadCallback={reloadList}/>
+                        </Grid>   
+                      </> 
+                     ))}
+                    </Grid>
                 <CreateProduct/>
             </TabPanel>
             <TabPanel value={value} index={1}>
@@ -127,4 +101,4 @@ const ProductsPage = () => {
     );
 }
 
-export default ProductsPage;
+export default ProductsTab;

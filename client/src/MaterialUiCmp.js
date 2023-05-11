@@ -31,6 +31,7 @@ import CardMedia from '@mui/material/CardMedia';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CardHeader from '@mui/material/CardHeader';
 import InputBase from '@mui/material/InputBase';
+import Grid from '@mui/material/Grid';
 
 //Icons imports 
 import AddIcon from '@mui/icons-material/Add';
@@ -73,6 +74,7 @@ export {
     CardMedia,
     CardHeader,
     InputBase,
+    Grid,
 
     AccountCircle,
     AddIcon,

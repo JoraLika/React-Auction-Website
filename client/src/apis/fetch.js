@@ -3,19 +3,8 @@ const makeFetch = async (url, params) => {
 	let status;
 
 	try {
-		if (params.headers) {
-			params.headers['Accept'] = 'application/json';
-			params.headers['Content-Type'] = 'application/json';
-		} else {
-			params.headers = {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			};
-		}
-
 		const body = params.body;
 		if (body) {
-			params.mode = 'no-cors';
 			params.body = JSON.stringify(body);
 		}
 

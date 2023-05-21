@@ -57,7 +57,7 @@ function NavComp () {
 
     useEffect(() => {
         setBtnVisible(user.username === undefined)
-    }, [user])
+    }, [user]);
 
     return (
      <>

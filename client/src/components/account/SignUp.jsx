@@ -113,7 +113,7 @@ function SignUp(props) {
                             type="email"
                             name="email"
                             label="Email"
-                            sx={{ margin: "2rem 0 0 0" }}
+                            sx={{ margin: "2rem 0 0 0", input: { color: "#EEEE" } }}
                         />
                         <TextField variant="outlined" className={classes.root} required fullWidth
                             name="username" 
@@ -121,7 +121,7 @@ function SignUp(props) {
                             size="small"
                             type="text"
                             InputProps={{ minLength: 3, maxLength: 20 }}
-                            sx={{ margin: "1rem 0 0 0" }}
+                            sx={{ margin: "1rem 0 0 0", input: { color: "#EEEE" } }}
                         />
                         <TextField variant="outlined" className={classes.root} required fullWidth
                             size="small"
@@ -129,7 +129,7 @@ function SignUp(props) {
                             type="password"
                             name="password"
                             label="Password"
-                            sx={{ margin: "1rem 0 0 0" }}
+                            sx={{ margin: "1rem 0 0 0", input: { color: "#EEEE" } }}
                         />  
                         <TextField variant="outlined" className={classes.root} required fullWidth
                             size="small"
@@ -137,9 +137,8 @@ function SignUp(props) {
                             InputProps={{ minLength: 8 }}
                             name="confirmPassword"
                             label="Confirm Password"
-                            sx={{ margin: "1rem 0 0 0" }}
-                        />    
-                        <FormControlLabel control={<Checkbox/>} label="Remember me" />                      
+                            sx={{ margin: "1rem 0 0 0", input: { color: "#EEEE" } }}
+                        />                      
                         <Button id="button" name="action" variant="contained" type="submit" color="primary"
                             sx={{
                                 backgroundColor: "#411E8F",

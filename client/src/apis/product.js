@@ -26,10 +26,26 @@ const addProduct = async (productData, username, password) => {
 	const response = await makeFetch(url, params);
 
 	if (response.status === 'failure') {
-		response.result = 'The product could not be posted due to an issue';
+		response.result = 'The product could not be found due to an issue';
 	}
 	
 	return response;
 }
 
-export { getProducts, addProduct };
+const removeProduct = async (productId, username, password) => {
+	const params = {
+		method: 'DELETE',
+		headers: createPostHeaders(username, password)
+	};
+	const url = API_URL + '/product/' + productId;
+	const response = await makeFetch(url, params);
+
+	if (response.status === 'failure') {
+		response.result = 'The product could not be deleted due to an issue';
+	}
+	
+	return response;
+}
+
+
+export { getProducts, addProduct, removeProduct };

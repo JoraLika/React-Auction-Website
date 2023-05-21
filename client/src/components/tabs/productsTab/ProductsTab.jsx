@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     Box, 
     Tabs,
@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import CreateProduct from '../../product/CreateProduct.jsx';
 import AuctionCard from '../../product/AuctionCard.jsx';
 import { getProducts } from '../../../apis/product.js';
+import { AuthContext } from '../../../Context.js';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -40,18 +41,26 @@ function TabPanel(props) {
   };
 
 const ProductsTab = () => {
+    const { user, setUser } = useContext(AuthContext);
+
     const [value, setValue] = useState(0);
     const [products, setProducts] = useState([]);
+    const [isLoggedIn, setIsLoggedIn]= useState(false);
 
     const handleChange = (event, newValue) => setValue(newValue);
 
     useEffect(async () => {
+
+      await reloadList();
+      setIsLoggedIn(user.username !== undefined)
+
+    }, [user]);
+
+    const reloadList = async() => {
       const response = await getProducts();
       if (response.status === 'failure') return console.error(response.result);
 
       setProducts(response.result.data);
-    }, [])
-    const reloadList = () => {
     }
 
     return (
@@ -78,12 +87,16 @@ const ProductsTab = () => {
                       {products.map(product => ( 
                         <>
                         <Grid item xs={12} sm={6} md={4} lg={3}  key={product._id} >
-                          <AuctionCard product={product}  reloadCallback={reloadList}/>
+                          <AuctionCard product={product} reloadCallback={reloadList}/>
                         </Grid>   
                       </> 
                      ))}
                     </Grid>
-                <CreateProduct/>
+                {
+                  isLoggedIn ? 
+                    <CreateProduct reloadCallback={reloadList}/> 
+                  : null
+                }
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Typography id="panel-title" variant="h5" component="h1" 

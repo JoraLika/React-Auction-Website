@@ -32,6 +32,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CardHeader from '@mui/material/CardHeader';
 import InputBase from '@mui/material/InputBase';
 import Grid from '@mui/material/Grid';
+import Collapse from '@mui/material/Collapse';
+
 
 //Icons imports 
 import AddIcon from '@mui/icons-material/Add';
@@ -41,6 +43,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import PersonIcon from '@mui/icons-material/Person';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export {
     Box,
@@ -75,6 +78,7 @@ export {
     CardHeader,
     InputBase,
     Grid,
+    Collapse,
 
     AccountCircle,
     AddIcon,
@@ -83,5 +87,6 @@ export {
     GavelIcon,
     PersonIcon,
     MoreVertIcon,
-    CheckOutlinedIcon
+    CheckOutlinedIcon,
+    ExpandMoreIcon
 };

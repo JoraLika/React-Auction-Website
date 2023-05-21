@@ -112,7 +112,8 @@ function LogIn(props) {
                         name="username"
                         label="Username"
                         sx={{
-                           margin: "2rem 0 0 0"
+                           margin: "2rem 0 0 0",
+                           input: { color: "#EEEE" }
                         }}
                     />
                     <TextField
@@ -125,10 +126,10 @@ function LogIn(props) {
                         name="password"
                         label="Password"
                         sx={{
-                           margin: "1rem 0 0 0"
+                           margin: "1rem 0 0 0",
+                           input: { color: "#EEEE" }
                         }}
-                    />     
-                     <FormControlLabel control={<Checkbox/>} label="Remember me" />                      
+                    />                        
                       <Button 
                         id="button"
                         variant="contained"

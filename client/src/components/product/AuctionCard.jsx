@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext} from 'react';
 import {
   Card,
   CardContent,
@@ -15,24 +15,55 @@ import {
   Menu,
   MenuItem,
   TextField,
-  CheckOutlinedIcon
+  CheckOutlinedIcon,
+  Collapse,
+  ExpandMoreIcon
 } from '../../MaterialUiCmp';
 import Countdown from 'react-countdown';
+import { AuthContext } from '../../Context.js'; 
+import { removeProduct } from '../../apis/product';
 
 const AuctionCard = ({ product, reloadCallback }) => {
+  const { user, setUser } = useContext(AuthContext);
+ 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+   const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const handleCancel = async () => {
+    const response = await removeProduct(product._id, user.username, user.password);
+    if (response.status === 'failure') return alert(response.result);
+
+    reloadCallback();
+  };
+
   const renderCountdown = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
-      return null;
+      return <Typography gutterBottom variant="subtitle1" component="div" 
+      sx={{
+        position: "absolute", 
+        color: "#EEEE", 
+        backgroundColor: "#5627a380",
+        padding: "0 0.5rem 0 0.5rem",
+        borderRadius: "0.5rem",
+        top: 210, 
+        left: "7%",
+        transform: "translateX(-10%)",
+      }}
+    >
+      00:00:00:00
+    </Typography>;
     } else {
       return <Typography gutterBottom variant="subtitle1" component="div" 
       sx={{
@@ -81,7 +112,7 @@ const AuctionCard = ({ product, reloadCallback }) => {
                 onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>Edit Auction</MenuItem>
-              <MenuItem onClick={handleClose}>Cancel Auction</MenuItem>
+              <MenuItem onClick={handleCancel}>Cancel Auction</MenuItem>
             </Menu>
           </div>
         }
@@ -132,27 +163,37 @@ const AuctionCard = ({ product, reloadCallback }) => {
               ${product.price}
             </Typography>
           </Typography>
+          <Button expand={expanded} onClick={handleExpandClick} variant="contained" sx={{margin: "0 0 0 6rem"}}>
+            Bid Here
+          </Button>
+      </CardActions>  
+
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardActions>
             <TextField
               size="small"
-              InputLabelProps={{ shrink: true }}
-              label="Make a bid"
-              sx={{ color: "#EEEE", width: "6rem", margin: "0 0 0 6rem", borderColor: "#EEEE", 
+              sx={{ color: "#EEEE", borderColor: "#EEEE", marginRight: "1rem",
               '& .MuiOutlinedInput-notchedOutline': {
                 borderColor: "#EEEE",
-                
+              
+              },  
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: "#EEEE"
+                },
+              '& .MuiFormLabel-root': {
+                color: "#EEEE"
               },
               input: {
                 color: "#EEEE"
               }
-            }}    
-              InputProps={{
-                endAdornment: <IconButton type="button"  sx={{  color: "green" }}>
-                                <CheckOutlinedIcon fontSize="medium" sx={{margin: "0 -1rem 0 0.2rem", backgroundColor: "#EEEE", borderRadius:"5px"}}/>
-                              </IconButton> 
-              }}      
+            }}       
             variant="outlined"
-            />       
-      </CardActions>
+            />          
+            <Button size="small" variant="contained" >
+            Confirm
+          </Button> 
+          </CardActions> 
+        </Collapse>  
     </Card>
   </>
   );

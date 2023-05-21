@@ -19,11 +19,10 @@ import { addProduct } from "../../apis/product.js";
 import { AuthContext } from '../../Context.js'; 
 import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
-// import { AuthContext } from '../../Context';
 
 const style = {
     position: 'absolute',
-    top: '45%',
+    top: '50%',
     left: '50%',
     borderRadius: "1rem",
     transform: 'translate(-50%, -50%)',
@@ -82,11 +81,13 @@ function ProductModal(props) {
             title: e.target.title.value,
             description: e.target.description.value,
             price: e.target.price.value,
-            dueDate: dueDate.toISOString(),
+            dueDate: dueDate.toDate().getTime(),
             itemImage: imgPath
         }
         const response = await addProduct(product, user.username, user.password);
         if (response.status === 'failure') return setErrorMsg(response.result);
+
+        props.handleClose();
     }
 
   return (
@@ -128,7 +129,7 @@ function ProductModal(props) {
                             type="text"
                             name="title"
                             label="Product Name"
-                            sx={{ margin: "2rem 0 0 0" }}
+                            sx={{ margin: "2rem 0 0 0", input: { color: "#EEEE" } }}
                         />
                         <TextField className={classes.root} required fullWidth multiline
                             label="Product Description"
@@ -136,14 +137,14 @@ function ProductModal(props) {
                             rows={4}
                             size="small"
                             type="text"
-                            sx={{ margin: "1rem 0 0 0" }}
+                            sx={{ margin: "1rem 0 0 0", textarea: { color: "#EEEE" } }}
                         />
                         <TextField className={classes.root} required fullWidth
                             size="small"
                             type="number"
                             name="price"
                             label="Starting Bid"
-                            sx={{ margin: "1rem 0 0 0" }}
+                            sx={{ margin: "1rem 0 0 0", input: { color: "#EEEE" } }}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -156,7 +157,7 @@ function ProductModal(props) {
                             type="number"
                             name="dueDate"
                             label="Product Duration in hours"
-                            sx={{ margin: "1rem 0 0 0" }}
+                            sx={{ margin: "1rem 0 0 0", input: { color: "#EEEE" } }}
                             InputProps={{
                                 min: '1'
                               }}
@@ -168,12 +169,10 @@ function ProductModal(props) {
                             label= "Product Image"
                             accept="image/png, image/jpg, image/jpeg"
                             onChange={imageUpload}
-                            sx={{ margin: "1.2rem 0 0 0" }}
+                            sx={{ margin: "1.2rem 0 0 0", input: { color: "#EEEE" } }}
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                           
-                          
                         />  
                         <Button id="button" name="cancel" variant="contained" color="primary"
                             onClick={props.handleClose}

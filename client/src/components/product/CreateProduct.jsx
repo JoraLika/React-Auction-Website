@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Fab, AddIcon, Tooltip, Box} from '../../MaterialUiCmp';
 import ProductModal from './ProductModal';
 
-function CreateProduct() {
+function CreateProduct(props) {
   const [open, setOpen] = useState(false);
     
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    props.reloadCallback();
+  }
   
   return (
     <>

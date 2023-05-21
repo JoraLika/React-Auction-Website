@@ -13,7 +13,9 @@ function create() {
 	// BEGIN: Product
 	router.get("/products"		, Controller.getAllProducts);
 	router.get("/product/:id"	, Controller.getProduct);
+	router.options("/product"	, Authorizer.verifyRequest);
 	router.post("/product"		, Authorizer.verifyRequest, Controller.addProduct);
+	router.options("/product/:id", Authorizer.verifyRequest);
 	router.delete("/product/:id", Authorizer.verifyRequest, Controller.removeProduct);
 	// END: Product
 

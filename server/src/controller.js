@@ -55,8 +55,10 @@ module.exports = {
 			products = await Product.find();
 
 			const productProms = products.map(async (product) => {
-				let user = await User.findById(new ObjectId(product.owner));
+				console.log(product);
+				let user = await User.findOne({_id: product.owner});
 				return {
+					_id: product._id,
 					owner: product.owner,
 					ownerName: user.username,
 					title: product.title,
@@ -94,17 +96,25 @@ module.exports = {
 
 
 	addProduct: async (req, res) => {
-		const body = req.body;
-		let productData = {
-			owner: new ObjectId(body.owner),
-			title: body.title,
-			description: body.description,
-			price: body.price,
-			itemImage: body.itemImage,
-			dueDate: new Date(body.dueDate)
-		};
+		let productData = {};
 		
 		try {
+			const headers = req.headers;
+			const user = await User.findOne({
+				username: headers.username,
+				password: headers.password
+			});
+			
+			const body = req.body;
+			productData = {
+				owner: user._id,
+				title: body.title,
+				description: body.description,
+				price: body.price,
+				itemImage: body.itemImage,
+				dueDate: new Date(body.dueDate)
+			};
+
 			const product = new Product(productData);
 			await product.save();
 
